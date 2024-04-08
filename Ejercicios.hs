@@ -26,3 +26,17 @@ maximoEntre3 :: Int -> Int -> Int -> Int
 maximoEntre3 x y z  | x >= y && x >= z = x
                     | y >= x && y >= z = y
                     | z >= x && z >= y = z
+
+sumaDistintos :: Int -> Int -> Int -> Int
+sumaDistintos x y z | x /= y && x /= z = x + y + z
+                    | x == y && x /= z = x + z
+                    | x /= y && x == z = x + y
+                    | x == y && x == z = x
+
+sumaDistintosHard :: Int -> Int -> Int -> Int
+sumaDistintosHard x y z | x /= y && x /= z && y /= z = x + y + z
+                        | x /= z = x + z
+                        | x /= y = x + y
+                        | otherwise = x
+
+
