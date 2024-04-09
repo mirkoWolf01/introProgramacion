@@ -45,7 +45,10 @@ digitoUnidades x = mod x 10
 digitoDecenas :: Int -> Int
 digitoDecenas x  = div(mod x 100 - digitoUnidades x) 10
 
+-- Ej4
+
 todoMenor :: (Float, Float) -> (Float, Float) -> Bool
 todoMenor (x,y) (a, b)  | x >= a          = False
                         | y >= b          = False
                         | otherwise      = True
+
