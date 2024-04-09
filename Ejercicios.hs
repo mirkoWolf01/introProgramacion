@@ -42,3 +42,4 @@ sumaDistintosHard x y z | x /= y && x /= z && y /= z = x + y + z
 digitoUnidades :: Int -> Int
 digitoUnidades x = mod x 10
 
+--si señor
