@@ -138,6 +138,24 @@ distanciaManhattan (a,b,c) (x,y,z) = abs(l) + abs (m) + abs (n)
 --Ej 8 
 
 sumaUltimosDosDigitos :: Int -> Int
-sumaUltimosDosDigitos x = mod (abs x) 10
+sumaUltimosDosDigitos x = (mod x 10) + (div(mod x 100) 10)
 
---comparar :: Int -> Int -> Int
+comparar :: Int -> Int -> Int
+comparar  a b   | sumaUltimosDosDigitos (a) < sumaUltimosDosDigitos (b) =   1
+                | sumaUltimosDosDigitos (a) > sumaUltimosDosDigitos (b) = (-1)
+                | otherwise                                             =   0
+
+--Ej9
+{-
+a. funcion que toma de dato de entrada un real, y devuelve un real. Llamo n a ese real, si n es igual a 0, la funcion devuelve un 1. Si n es cualquier otra cosa que no sea igual a 0, la funcion devuelve un 0
+
+b. funcion que toma de dato de entrada un real, y devuelve un real. Llamo n a ese real, si n es igual a 1, la funcion devuelve un 15. Si n es -1, devuelve un -15. En caso de que n valga cualquier otra cosa diferente de 1 o -1, va a ocurrir un error
+
+c. funcion que toma de dato de entrada un real, y devuelve un real. Llamo n a ese real, si n es menor o igual a 9, la funcion devuelve un 7. Si n es mayor a 9, devuelve un 5. 
+
+d. funcion que toma dos datos de entrada reales, y devuelve un real. La fucion devuelve la mitad del resultado de la suma de eso 2 numeros reales, o lo que es lo mismo, su promedio. 
+
+e. funcion que toma de dato de entrada una dupla(tupla de dos elementos) de reales, y devuelve un real. La fucion devuelve la mitad del resultado de la suma de eso 2 numeros reales, o lo que es lo mismo, su promedio. 
+
+f.  funcion que toma dos datos de entrada, uno real y otro entero. Y devuelve un valor de verdad. En caso de que la parte entera de a sea igual a b devuelve un True, sino un False.
+-}
