@@ -62,6 +62,9 @@ esMultiploDe a b    | a <= 0            =   False
                     | mod a b ==  0     =   True
                     | otherwise         =   False
 
+esMultiploDePNeg :: Int -> Int -> Bool
+esMultiploDePNeg a b  | mod (abs a) (abs b) ==  0     =   True
+                      | otherwise                     =   False
 --Ej3
 
 {-
@@ -75,3 +78,66 @@ estanRelacionados a b   | a == 0 || b == 0              = False
                         | mod (abs a) (abs b) ==  0     =   True
                         | otherwise                     = False
 
+--Ej4 
+
+prodInt :: (Float,Float) -> (Float,Float) -> (Float,Float)
+prodInt (a,b) (c,d) = (a*c, b*d)
+
+distanciaPuntos :: (Float,Float) -> (Float,Float) -> (Float,Float) 
+distanciaPuntos (a,b) (c,d) = (abs(a-c), abs(b-d))
+
+sumaTerna :: (Int,Int,Int) -> Int
+sumaTerna (a,b,c) = a+b+c
+
+devuelveMultiplo :: Int -> Int -> Int
+devuelveMultiplo a b  | (esMultiploDePNeg a b) = a
+                      | otherwise              = 0
+
+sumarSoloMultiplos :: (Int,Int,Int)  -> Int -> Int
+sumarSoloMultiplos (a,b,c) x  = (devuelveMultiplo a x) + (devuelveMultiplo b x) + (devuelveMultiplo c x)
+
+
+posPrimerPar :: (Int,Int,Int) -> Int
+posPrimerPar (a,b,c)  | (esMultiploDePNeg a 2) == True  = 1
+                      | (esMultiploDePNeg b 2) == True  = 2
+                      | (esMultiploDePNeg c 2) == True  = 3
+                      |otherwise                        = 4
+
+crearPar :: a -> b -> (a,b)
+crearPar x y = (x,y)
+
+inverir :: (a,b) -> (b,a)
+inverir (a,b) = (b,a)
+
+--Ej5
+
+f :: Int -> Int
+f   n   | n <= 7 = n*n
+        | n > 7  = 2*n-1
+
+g :: Int -> Int
+g   n   | (esMultiploDePNeg n 2)  = div n 2
+        | otherwise               = 3*n + 1
+
+todosMenores :: (Int, Int, Int) -> Bool
+todosMenores (a,b,c)  | (f a) > (g a) && (f b) > (g b) && (f c) > (g c) = True
+                      | otherwise                                       = False
+
+--Ej6 
+
+bisiesto :: Int -> Bool 
+bisiesto año  | not (esMultiploDePNeg año 4) || (esMultiploDePNeg año 100) && not (esMultiploDePNeg año 400) = False
+              | otherwise = True
+
+--Ej7
+
+distanciaManhattan :: (Float,Float,Float) -> (Float,Float,Float) -> Float
+distanciaManhattan (a,b,c) (x,y,z) = abs(l) + abs (m) + abs (n)
+                                    where (l,m,n) = (a-x,b-y,c-z) 
+
+--Ej 8 
+
+sumaUltimosDosDigitos :: Int -> Int
+sumaUltimosDosDigitos x = mod (abs x) 10
+
+--comparar :: Int -> Int -> Int
