@@ -61,3 +61,17 @@ esMultiploDe a b    | a <= 0            =   False
                     | b <= 0            =   False
                     | mod a b ==  0     =   True
                     | otherwise         =   False
+
+--Ej3
+
+{-
+  a +  b ∗ k = 0
+  (b*k)/a - 1 = 0
+  por ende b tiene que ser un multiplo de a para que de 1, todo esto con a /= 0
+-}
+
+estanRelacionados :: Int -> Int -> Bool
+estanRelacionados a b   | a == 0 || b == 0              = False
+                        | mod (abs a) (abs b) ==  0     =   True
+                        | otherwise                     = False
+
