@@ -62,4 +62,4 @@ sumaDigitos n   | n < 1 = 0
 todosDigitosIguales :: Int -> Bool
 todosDigitosIguales n   |   n < 1           = False
                         | (mod n 10) == n   = True
-                        | otherwise = ((mod n 10) == (mod (div n 10) 10)) -- && todosDigitosIguales ()
+                        | otherwise = ((mod n 10) == (mod (div n 10) 10)) && todosDigitosIguales (div n 10)
