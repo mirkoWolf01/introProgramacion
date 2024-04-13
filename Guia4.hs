@@ -46,5 +46,4 @@ esDivisible a b | a == b             = True
 --Ej4 
 sumaImpares :: Int -> Int 
 sumaImpares a   | a == 1 = 1 
-                | a `esDivisible` 2 = (a+1) + sumaImpares(a-1)
-                | otherwise = (a+2) + sumaImpares(a-1)
+                | otherwise = (2a-1)) + sumaImpares(a-1)
