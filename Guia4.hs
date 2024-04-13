@@ -23,7 +23,6 @@ llegarA :: Int -> Int -> Int
 llegarA numEntrada vecesSumado   | numEntrada <= 0 = vecesSumado
                                  | otherwise       = llegarA (numEntrada-1) (vecesSumado-1)
 
-
 --Ej1
 fib :: Int -> Int 
 fib 0 = 0
@@ -33,7 +32,7 @@ fib n = fib (n-1) + fib (n-2)
 --Ej2
 parteEntera :: Float -> Int
 parteEntera n   | (abs n) < 1   = 0
-                | n < 0         = - 1 + parteEntera(n+1)
+                |  n < 0         = - 1 + parteEntera(n+1)
                 | otherwise     = 1 + parteEntera(n-1)
 
 
@@ -46,4 +45,21 @@ esDivisible a b | a == b             = True
 --Ej4 
 sumaImpares :: Int -> Int 
 sumaImpares a   | a == 1 = 1 
-                | otherwise = (2a-1)) + sumaImpares(a-1)
+                | otherwise = (2*a-1) + sumaImpares(a-1)
+
+--Ej5
+medioFact :: Int -> Int
+medioFact n | n <= 0 = 1
+            | otherwise = n * medioFact(n-2)
+
+--Ej6 
+sumaDigitos :: Int -> Int
+sumaDigitos n   | n < 1 = 0 
+                | (div n 10) == 0   = n
+                | otherwise = (mod n 10) + sumaDigitos (div n 10)
+                    
+--Ej7
+todosDigitosIguales :: Int -> Bool
+todosDigitosIguales n   |   n < 1           = False
+                        | (mod n 10) == n   = True
+                        | otherwise = ((mod n 10) == (mod (div n 10) 10)) -- && todosDigitosIguales ()
