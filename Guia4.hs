@@ -31,9 +31,9 @@ fib n = fib (n-1) + fib (n-2)
 
 --Ej2
 parteEntera :: Float -> Int
-parteEntera n   | (abs n) < 1   = 0
-                |  n < 0         = - 1 + parteEntera(n+1)
-                | otherwise     = 1 + parteEntera(n-1)
+parteEntera n   | (abs n) < 1   =   0
+                |  n < 0        = (-1) + parteEntera(n+1)
+                | otherwise     =   1  + parteEntera(n-1)
 
 
 --Ej3
@@ -72,7 +72,7 @@ iesimoDigito a b    | not (a > 0) || not (1 <= b)|| not (b <= cantDigitos a) = 0
 cantDigitos :: Int -> Int
 cantDigitos a   | k == 0        = 1
                 | otherwise     = 1 + cantDigitos (k)
-                where k = div a 10
+                  where k = div a 10
 
 --Ej9
 esCapicua :: Int -> Bool
@@ -85,4 +85,18 @@ invertirNum n   | div n 10 == 0 = n
                    where ultimoDigito = mod n 10
 
 --Ej10
+f1 :: Int -> Int
+f1 n  | n < 0     = 0
+      | otherwise = 2^n + f1(n-1)
 
+f2 :: Int -> Float -> Float
+f2 n q   | n < 1     = 0
+         | otherwise = q^n + f2(n-1) q
+
+f3 :: Int -> Float -> Float
+f3 n q   | n < 1  = 0
+         | otherwise = q^(2*n) + q^(2*n -1) + f3(n-1) q
+
+f4 :: Int -> Float -> Float
+f4 n q   | n < 1  = 0
+         | otherwise = (f3 n q) - (f2 (n-1) q)
