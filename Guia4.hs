@@ -81,7 +81,7 @@ esCapicua n | div n 10 == 0 = True
 
 invertirNum :: Int -> Int
 invertirNum n   | div n 10 == 0 = n
-                | otherwise     = (ultimoDigito * (10^((cantDigitos n) -1))) + invertirNum (div n 10)
+                | otherwise     = (ultimoDigito * (10^((cantDigitos n)-1))) + invertirNum (div n 10)
                    where ultimoDigito = mod n 10
 
 --Ej10
