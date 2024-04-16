@@ -63,3 +63,26 @@ todosDigitosIguales :: Int -> Bool
 todosDigitosIguales n   |   n < 1           = False
                         | (mod n 10) == n   = True
                         | otherwise = ((mod n 10) == (mod (div n 10) 10)) && todosDigitosIguales (div n 10)
+
+--Ej8 
+iesimoDigito :: Int -> Int -> Int
+iesimoDigito a b    | not (a > 0) || not (1 <= b)|| not (b <= cantDigitos a) = 0
+                    | otherwise =  mod (div a (10^((cantDigitos a)-b))) 10
+
+cantDigitos :: Int -> Int
+cantDigitos a   | k == 0        = 1
+                | otherwise     = 1 + cantDigitos (k)
+                where k = div a 10
+
+--Ej9
+esCapicua :: Int -> Bool
+esCapicua n | div n 10 == 0 = True
+            | otherwise = (n == (invertirNum n))
+
+invertirNum :: Int -> Int
+invertirNum n   | div n 10 == 0 = n
+                | otherwise     = (ultimoDigito * (10^((cantDigitos n) -1))) + invertirNum (div n 10)
+                   where ultimoDigito = mod n 10
+
+--Ej10
+
