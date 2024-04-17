@@ -90,16 +90,16 @@ f1 n  | n < 0     = 0
       | otherwise = 2^n + f1(n-1)
 
 f2 :: Int -> Float -> Float
-f2 n q   | n < 1     = 0
-         | otherwise = q^n + f2(n-1) q
+f2 n q  | n < 1     = 0
+        | otherwise = q^n + f2(n-1) q
 
 f3 :: Int -> Float -> Float
-f3 n q   | n < 1  = 0
-         | otherwise = q^(2*n) + q^(2*n -1) + f3(n-1) q
+f3 n q  | n < 1  = 0
+        | otherwise = q^(2*n) + q^(2*n -1) + f3(n-1) q
 
 f4 :: Int -> Float -> Float
-f4 n q   | n < 1  = 0
-         | otherwise = (f3 n q) - (f2 (n-1) q)
+f4 n q  | n < 1  = 0
+        | otherwise = (f3 n q) - (f2 (n-1) q)
 
 --Ej11
 eAprox :: Int -> Float
@@ -109,14 +109,57 @@ eAprox n    | n == 0    = 1
 --Ej12
 
 raizDe2Aprox :: Int -> Float 
-raizDe2Aprox a    | a == 1 = 1
-                  | otherwise = 1 + 1/(1+raizDe2Aprox (a-1)) 
+raizDe2Aprox a  | a == 1 = 1
+                | otherwise = 1 + 1/(1+raizDe2Aprox (a-1)) 
 
 --Ej13
 sumatoriaDeLaSumatoria :: Float -> Float -> Float
-sumatoriaDeLaSumatoria n m    | n == 1    = sumatoria 1 m
-                              | otherwise = sumatoria n m + sumatoriaDeLaSumatoria (n-1) m
+sumatoriaDeLaSumatoria n m  | n == 1    = sumatoria 1 m
+                            | otherwise = sumatoria n m + sumatoriaDeLaSumatoria (n-1) m
 
-sumatoria :: Float -> Float -> Float
-sumatoria n m | m < 1     = 0
-            | otherwise = n**m + sumatoria n (m-1)
+sumatoria :: Float -> Float -> Float      -- n^m
+sumatoria n m   | m < 1     = 0
+                | otherwise = n**m + sumatoria n (m-1)
+
+--Ej14
+sumaPotencias :: Int -> Int -> Int -> Int
+sumaPotencias q n m | m == 1          = sumaPotAux q n 1
+                    | otherwise       = (sumaPotAux q n m) + sumaPotencias q n (m-1)
+
+sumaPotAux :: Int -> Int -> Int -> Int
+sumaPotAux q n m    | n == 1    = q^(1+m) 
+                    | otherwise = q^(n+m) + sumaPotAux q (n-1) m
+
+--Ej 15
+sumaRacionales :: Int -> Int -> Float
+sumaRacionales n m  | n == 1    = auxSumaRacionales 1 mFloat
+                    | otherwise = (auxSumaRacionales nFloat mFloat) + (sumaRacionales (n-1) m)
+                        where nFloat = (fromIntegral n)
+                              mFloat = (fromIntegral m)
+
+auxSumaRacionales :: Float -> Float -> Float
+auxSumaRacionales n m   | m == 1         =  n
+                        | otherwise      = (n/m) + (auxSumaRacionales n (m-1))
+
+--Ej16
+menorDivisor :: Int ->  Int 
+menorDivisor a  = (menorDivisorAux a 2)
+
+menorDivisorAux :: Int -> Int -> Int
+menorDivisorAux a b | b > a                     = 0
+                    | not (a `esDivisible` b)   = menorDivisorAux a (b+1)
+                    | otherwise                 = b
+
+esPrimo :: Int -> Bool
+esPrimo a = not ((menorDivisor a) == a)
+
+sonCoprimos :: Int -> Int -> Bool
+sonCoprimos a b =  not((a `esDivisible` (menorDivisor b)) || (b `esDivisible` (menorDivisor a)))
+
+nEsPrimo :: Int -> Int
+nEsPrimo a  = (nEsPrimoAux a 2)
+
+nEsPrimoAux :: Int -> Int -> Int
+nEsPrimoAux contador numPrimo   | contador == 0 = (numPrimo -1)
+                                | (menorDivisor numPrimo) == numPrimo   = nEsPrimoAux (contador-1)(numPrimo+1)
+                                | otherwise                             = nEsPrimoAux contador (numPrimo+1)
