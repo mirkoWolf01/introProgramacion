@@ -100,3 +100,23 @@ f3 n q   | n < 1  = 0
 f4 :: Int -> Float -> Float
 f4 n q   | n < 1  = 0
          | otherwise = (f3 n q) - (f2 (n-1) q)
+
+--Ej11
+eAprox :: Int -> Float
+eAprox n    | n == 0    = 1
+            | otherwise = ((1)/(fromIntegral (factorial n))) + eAprox (n-1)
+
+--Ej12
+
+raizDe2Aprox :: Int -> Float 
+raizDe2Aprox a    | a == 1 = 1
+                  | otherwise = 1 + 1/(1+raizDe2Aprox (a-1)) 
+
+--Ej13
+funcionRara :: Float -> Float -> Float
+funcionRara n m   | n == 1    = f2Fixed 1 m
+                  | otherwise = f2Fixed n m + funcionRara (n-1) m
+
+f2Fixed :: Float -> Float -> Float
+f2Fixed n m | m < 1     = 0
+            | otherwise = n**m + f2Fixed n (m-1)
