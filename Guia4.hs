@@ -113,10 +113,10 @@ raizDe2Aprox a    | a == 1 = 1
                   | otherwise = 1 + 1/(1+raizDe2Aprox (a-1)) 
 
 --Ej13
-funcionRara :: Float -> Float -> Float
-funcionRara n m   | n == 1    = f2Fixed 1 m
-                  | otherwise = f2Fixed n m + funcionRara (n-1) m
+sumatoriaDeLaSumatoria :: Float -> Float -> Float
+sumatoriaDeLaSumatoria n m    | n == 1    = sumatoria 1 m
+                              | otherwise = sumatoria n m + sumatoriaDeLaSumatoria (n-1) m
 
-f2Fixed :: Float -> Float -> Float
-f2Fixed n m | m < 1     = 0
-            | otherwise = n**m + f2Fixed n (m-1)
+sumatoria :: Float -> Float -> Float
+sumatoria n m | m < 1     = 0
+            | otherwise = n**m + sumatoria n (m-1)
