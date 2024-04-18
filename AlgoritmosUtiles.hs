@@ -3,10 +3,8 @@ esPar :: Int -> Bool
 esPar 0 = True
 esPar n = not (esPar (n-1))
 
-parteEntera :: Float -> Int
-parteEntera n   | (abs n) < 1   =   0
-                |  n < 0        = (-1) + parteEntera(n+1)
-                | otherwise     =   1  + parteEntera(n-1)
+parteEntera :: Float -> Int   --Np funca para un numero de mas de 16 digitos
+parteEntera n   = floor n 
 
 esDivisible :: Int -> Int -> Bool
 esDivisible a b | (mod a b) == 0    = True
@@ -25,7 +23,7 @@ menorDivisorAux a b | b > a                     = 0
                     | otherwise                 = b
 
 esPrimo :: Int -> Bool
-esPrimo a = not ((menorDivisor a) == a)
+esPrimo a = (menorDivisor a) == a
 
 -- Para Digitos 
 ultimoDigito :: Int -> Int 
@@ -47,6 +45,3 @@ algunDigitoPar :: Int -> Bool
 algunDigitoPar a    | a == 0                                            = False
                     | (div a 10) == 0 && not(esPar(ultimoDigito a))     = False
                     | otherwise                                         = ((esPar (ultimoDigito a)) && (ultimoDigito a /= 0)) || (algunDigitoPar (div a 10))  
-
-
-
