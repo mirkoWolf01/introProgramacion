@@ -1,23 +1,21 @@
-esOrigen :: (Float , Float ) -> Bool
-esOrigen (0, 0) = True
-esOrigen (x, y) = False
-
-angulo0 :: (Float , Float ) -> Bool
-angulo0 (_, 0) = True
-angulo0 (_, _) = False
-
-angulo45 :: (Float , Float ) -> Bool
-angulo45 (x, y) = x == y
-
--- recursion
-
-factorial :: Int -> Int
-factorial n     | n == 0 = 1
-                | n > 0 = n * factorial (n-1)
-
 esPar :: Int -> Bool
 esPar 0 = True
 esPar n = not (esPar (n-1))
+
+ultimoDigito :: Int -> Int 
+ultimoDigito n  = mod n 10 
+
+anteultimoDigito :: Int -> Int
+anteultimoDigito n   = ultimoDigito (div n 10)
+
+algunDigitoPar :: Int -> Bool
+algunDigitoPar a    | a == 0                                            = False
+                    | (div a 10) == 0 && not(esPar(ultimoDigito a))     = False
+                    | otherwise                                         = ((esPar (ultimoDigito a)) && (ultimoDigito a /= 0)) || (algunDigitoPar (div a 10))  
+-- recursion
+factorial :: Int -> Int
+factorial n     | n == 0 = 1
+                | n > 0 = n * factorial (n-1)
 
 llegarA :: Int -> Int -> Int
 llegarA numEntrada vecesSumado   | numEntrada <= 0 = vecesSumado
@@ -81,8 +79,7 @@ esCapicua n | div n 10 == 0 = True
 
 invertirNum :: Int -> Int
 invertirNum n   | div n 10 == 0 = n
-                | otherwise     = (ultimoDigito * (10^((cantDigitos n)-1))) + invertirNum (div n 10)
-                   where ultimoDigito = mod n 10
+                | otherwise     = ((ultimoDigito n)* (10^((cantDigitos n)-1))) + invertirNum (div n 10)
 
 --Ej10
 f1 :: Int -> Int
@@ -163,3 +160,24 @@ nEsPrimoAux :: Int -> Int -> Int
 nEsPrimoAux contador numPrimo   | contador == 0 = (numPrimo -1)
                                 | (menorDivisor numPrimo) == numPrimo   = nEsPrimoAux (contador-1)(numPrimo+1)
                                 | otherwise                             = nEsPrimoAux contador (numPrimo+1)
+
+--Ej17
+esFibonacci :: Int -> Bool
+esFibonacci n   | n < 0         = False
+                | otherwise     = (esFibonacciAux n 0)
+
+esFibonacciAux :: Int -> Int -> Bool
+esFibonacciAux a b  | a == fib b    = True
+                    | a <  fib b    = False
+                    | otherwise     = True && (esFibonacciAux a (b+1))
+
+--Ej18
+mayorDigitoPar :: Int -> Int
+mayorDigitoPar a    | not (algunDigitoPar a)    = -1
+                    | otherwise                 = (mayorDigitoParAux a 0)
+
+mayorDigitoParAux :: Int -> Int -> Int          
+mayorDigitoParAux a b   |(esPar (ultimoDigito a)) && ((ultimoDigito a) > b) = mayorDigitoParAux (div a 10) (ultimoDigito a)
+                        | not (algunDigitoPar (div a 10))                   = b 
+                        | otherwise                                         = mayorDigitoParAux (div a 10) b
+
