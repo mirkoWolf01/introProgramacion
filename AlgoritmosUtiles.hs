@@ -12,6 +12,21 @@ esDivisible :: Int -> Int -> Bool
 esDivisible a b | (mod a b) == 0    = True
                 | otherwise         = False
 
+invertirNum :: Int -> Int
+invertirNum n   | div n 10 == 0 = n
+                | otherwise     = ((ultimoDigito n)* (10^((cantDigitos n)-1))) + invertirNum (div n 10)
+
+menorDivisor :: Int ->  Int 
+menorDivisor a  = (menorDivisorAux a 2)
+
+menorDivisorAux :: Int -> Int -> Int
+menorDivisorAux a b | b > a                     = 0
+                    | not (a `esDivisible` b)   = menorDivisorAux a (b+1)
+                    | otherwise                 = b
+
+esPrimo :: Int -> Bool
+esPrimo a = not ((menorDivisor a) == a)
+
 -- Para Digitos 
 ultimoDigito :: Int -> Int 
 ultimoDigito n  = mod n 10 
