@@ -129,7 +129,7 @@ sumaPotAux q n m    | n == 1    = q^(1+m)
 
 --Ej 15
 sumaRacionales :: Int -> Int -> Float
-sumaRacionales n m  | n == 1    = auxSumaRacionales 1 mFloat
+sumaRacionales n m  | n == 1    = (auxSumaRacionales 1 mFloat)
                     | otherwise = (auxSumaRacionales nFloat mFloat) + (sumaRacionales (n-1) m)
                         where nFloat = (fromIntegral n)
                               mFloat = (fromIntegral m)
@@ -181,3 +181,24 @@ mayorDigitoParAux a b   |(esPar (ultimoDigito a)) && ((ultimoDigito a) > b) = ma
                         | not (algunDigitoPar (div a 10))                   = b 
                         | otherwise                                         = mayorDigitoParAux (div a 10) b
 
+--Ej19
+esSumaInicialDePrimos :: Int -> Bool
+esSumaInicialDePrimos n | n < 0     = False
+                        | otherwise = (esSumaInicialDePrimosAux n 1 2)
+
+esSumaInicialDePrimosAux :: Int -> Int -> Int -> Bool
+esSumaInicialDePrimosAux n b numPrimo   | numPrimo > n  = False
+                                        | numPrimo == n = True 
+                                        | otherwise     = esSumaInicialDePrimosAux n (proximoEntero) (numPrimo + (nEsPrimo proximoEntero))
+                                            where proximoEntero = b+1
+
+--Ej21 
+pitagoras :: Int ->Int ->Int ->Int
+pitagoras m n r | m < 0 || n < 0 || r < 0   = 0
+                | m == (-1)     = (pitagorasAuxContador 1 n r 0)
+                | otherwise     = (pitagorasAuxContador m n r 0) + (pitagoras (m-1) n r)
+
+pitagorasAuxContador :: Int ->Int ->Int ->Int -> Int 
+pitagorasAuxContador m n r contador     | n == (-1)    = contador
+                                        | (m^2 + n^2) <= r^2    = pitagorasAuxContador m (n-1) r (contador+1)
+                                        | otherwise             = pitagorasAuxContador m (n-1) r (contador) 
