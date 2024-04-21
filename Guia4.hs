@@ -173,7 +173,8 @@ esFibonacciAux a b  | a == fib b    = True
 
 --Ej18
 mayorDigitoPar :: Int -> Int
-mayorDigitoPar a    | not (algunDigitoPar a)    = -1
+mayorDigitoPar a    | a == 0                    = 0
+                    | not (algunDigitoPar a)    = -1
                     | otherwise                 = (mayorDigitoParAux a 0)
 
 mayorDigitoParAux :: Int -> Int -> Int          
