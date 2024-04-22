@@ -1,3 +1,18 @@
+module AlgoritmosUtiles 
+( esPar
+, parteEntera
+, esDivisible
+, invertirNum
+, menorDivisor
+, esPrimo
+, ultimoDigito
+, ultimoDigito
+, anteultimoDigito
+, iesimoDigito
+, cantDigitos
+, algunDigitoPar
+) where
+
 -- Para Numeros en general
 esPar :: Int -> Bool
 esPar 0 = True
