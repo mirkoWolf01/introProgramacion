@@ -1,9 +1,9 @@
---import AlgoritmosUtiles
+import AlgoritmosUtiles
 
 --Ej1
 longitud :: [t] -> Int      --length
 longitud []     = 0 
-longitud t      = 1 + (longitud (tail t))
+longitud (x:xs) = 1 + (longitud xs)
 
 ultimo :: [l] -> l          -- last
 ultimo (l:ls)   | (longitud (l:ls)) == 1    = l
@@ -24,7 +24,7 @@ pertenece a (l:ls)  = (a == l) || (pertenece a ls)
 
 todosIguales :: (Eq t) => [t] -> Bool
 todosIguales (x:[]) = True
-todosIguales (x:xs) = (x == (head xs)) && todosIguales (xs)
+todosIguales (x:xs) = (x == (xs !! 0)) && todosIguales (xs)
 
 todosDistintos :: (Eq t) => [t] -> Bool
 todosDistintos (x:[])       = True
@@ -39,9 +39,9 @@ quitar a (x:xl) | a == x        = xl
                 | otherwise     = x:(quitar a xl)
 
 quitarTodos :: (Eq t) => t -> [t] -> [t]
-quitarTodos a []                                                = []
-quitarTodos a (x:xs)    | a == x                                = []++(quitarTodos a xs)
-                        | otherwise                             = [x]++(quitarTodos a xs)
+quitarTodos a []                    = []
+quitarTodos a (x:xs)    | a == x    = []++(quitarTodos a xs)
+                        | otherwise = [x]++(quitarTodos a xs)
 
 eliminarRepetidos :: (Eq t) => [t] -> [t]
 eliminarRepetidos []        = []
@@ -58,3 +58,54 @@ capicua :: (Eq t) => [t] -> Bool
 capicua xl  = (xl == (reverso xl))
 
 --Ej3
+sumatoria :: [Int] -> Int
+sumatoria []        = 0
+sumatoria (x:xs)    = x + (sumatoria xs)
+
+productoria :: [Int] -> Int
+productoria []        = 1
+productoria (x:xs)    = x* (productoria xs)
+
+maximo :: [Int] -> Int      --maximum
+maximo []       = error "Entrada no valida. Se requiere una lista de numeros enteros."
+maximo (x:xs)   | null xs           = x
+                | x > elSiguiente   = maximo (quitarTodos elSiguiente (x:xs))
+                | otherwise         = maximo xs
+                    where elSiguiente = xs !! 0
+
+minimo :: [Int] -> Int      --minimum
+minimo []       = error "Entrada no valida. Se requiere una lista de numeros enteros."
+minimo (x:xs)   | null xs           = x
+                | x < elSiguiente   = minimo (quitarTodos elSiguiente (x:xs))
+                | otherwise         = minimo xs
+                    where elSiguiente = xs !! 0
+
+sumarN :: Int -> [Int] -> [Int]
+sumarN a []     = []
+sumarN a (x:xs) | null xs   = [sum]
+                | otherwise = [sum] ++ sumarN a xs
+                    where sum = a+x
+
+sumarElPrimero :: [Int] -> [Int] 
+sumarElPrimero []       = error "Entrada no valida. Se requiere una lista de numeros enteros."
+sumarElPrimero (x:xs)   = sumarN x (x:xs)
+
+sumarElUltimo :: [Int] -> [Int] 
+sumarElUltimo []        = error "Entrada no valida. Se requiere una lista de numeros enteros."
+sumarElUltimo (xs)      = sumarN (xs !! ((longitud xs) -1)) xs 
+
+pares :: [Int] -> [Int]
+pares []        = []
+pares (x:xs)    | esPar x   = [x] ++ pares xs
+                | otherwise = pares xs
+
+multiplosDeN :: Int -> [Int] -> [Int]
+multiplosDeN  a []      = []
+multiplosDeN  a (x:xs)  | x `esDivisiblePor` a = [x] ++ multiplosDeN a xs
+                        | otherwise         = multiplosDeN a xs
+
+ordenar :: [Int] -> [Int]
+ordenar []      = []
+ordenar (x:xs)  | null xs   = [x]
+                | otherwise = [min] ++ ordenar (quitar min (x:xs))
+                    where min = minimo(x:xs)

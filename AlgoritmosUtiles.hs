@@ -1,11 +1,10 @@
 module AlgoritmosUtiles 
 ( esPar
 , parteEntera
-, esDivisible
+, esDivisiblePor
 , invertirNum
 , menorDivisor
 , esPrimo
-, ultimoDigito
 , ultimoDigito
 , anteultimoDigito
 , iesimoDigito
@@ -21,8 +20,8 @@ esPar n = not (esPar (n-1))
 parteEntera :: Float -> Int   --Np funca para un numero de mas de 16 digitos
 parteEntera n   = floor n 
 
-esDivisible :: Int -> Int -> Bool
-esDivisible a b | (mod a b) == 0    = True
+esDivisiblePor :: Int -> Int -> Bool
+esDivisiblePor a b | (mod a b) == 0    = True
                 | otherwise         = False
 
 invertirNum :: Int -> Int
@@ -34,7 +33,7 @@ menorDivisor a  = (menorDivisorAux a 2)
 
 menorDivisorAux :: Int -> Int -> Int
 menorDivisorAux a b | b > a                     = 0
-                    | not (a `esDivisible` b)   = menorDivisorAux a (b+1)
+                    | not (a `esDivisiblePor` b)   = menorDivisorAux a (b+1)
                     | otherwise                 = b
 
 esPrimo :: Int -> Bool
