@@ -123,12 +123,45 @@ contarPalabras (x:[])   | x == ' '                      = 0
 contarPalabras (x:xs)   | x /= ' ' && (xs !! 0) == ' '  = 1 + contarPalabras xs
                         | otherwise                     = 0 + contarPalabras xs
 
-{- palabras :: [Char] -> [[Char]]
+palabras::[Char] -> [[Char]]
 palabras [] = []
-palabras (x:[]) | x == ' '                      = []
-                | otherwise                     = [x]
- -}
+palabras ls = sacarEspacios (palabrasAux ls [])
 
-{- recortar :: [Char] -> [Char]
-recortar [] = []
- -}
+palabrasAux :: [Char] -> [Char] -> [[Char]]
+palabrasAux [] palabra = [palabra]
+palabrasAux (x:xs) palabra | x /= ' '  = palabrasAux xs (palabra ++ [x])
+                           | otherwise = [palabra] ++ (palabrasAux xs [])
+
+sacarEspacios :: [[Char]] -> [[Char]]   --Para Strings
+sacarEspacios []      =   []
+sacarEspacios (x:xs)    | x == [' ']    = sacarEspacios xs  
+                        | otherwise     = [x] ++ sacarEspacios xs
+
+palabraMasLarga :: String -> String
+palabraMasLarga []  = []
+palabraMasLarga ls  = compararLongitud (palabras ls) []
+
+compararLongitud :: [String] -> String -> String
+compararLongitud [] a           = a
+compararLongitud (x:xs) []      = compararLongitud xs x
+compararLongitud (elem:ls) x    | (longitud elem) > (longitud x)    = compararLongitud ls elem
+                                | otherwise                         = compararLongitud ls x
+
+aplanar :: [String] -> String
+aplanar []      = []
+aplanar (x:xs)  = x ++ aplanar xs
+
+aplanarConBlancos :: [String] -> String
+aplanarConBlancos []        = []
+aplanarConBlancos (x:[])    = x ++ aplanarConBlancos []
+aplanarConBlancos (x:xs)    = x ++ " " ++ aplanarConBlancos xs
+
+aplanarConNBlancos :: [[Char]] -> Int -> [Char]
+aplanarConNBlancos ls num       | num < 0 = error "no usar numeros menores que 0"
+aplanarConNBlancos [] num       = []
+aplanarConNBlancos (x:[]) num   = x ++ aplanarConNBlancos [] num
+aplanarConNBlancos (x:xs) num   = x ++ (concatenarNVeces " " num) ++ aplanarConNBlancos xs num
+
+concatenarNVeces :: String -> Int -> String
+concatenarNVeces ls n   | n <= 0    = ""
+                        | otherwise = ls ++ concatenarNVeces ls (n-1)
