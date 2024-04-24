@@ -165,3 +165,5 @@ aplanarConNBlancos (x:xs) num   = x ++ (concatenarNVeces " " num) ++ aplanarConN
 concatenarNVeces :: String -> Int -> String
 concatenarNVeces ls n   | n <= 0    = ""
                         | otherwise = ls ++ concatenarNVeces ls (n-1)
+
+--type Texto = [Char]
