@@ -64,7 +64,7 @@ sumatoria (x:xs)    = x + (sumatoria xs)
 
 productoria :: [Int] -> Int
 productoria []        = 1
-productoria (x:xs)    = x* (productoria xs)
+productoria (x:xs)    = x * (productoria xs)
 
 maximo :: [Int] -> Int      --maximum
 maximo []       = error "Entrada no valida. Se requiere una lista de numeros enteros."
@@ -109,3 +109,26 @@ ordenar []      = []
 ordenar (x:xs)  | null xs   = [x]
                 | otherwise = [min] ++ ordenar (quitar min (x:xs))
                     where min = minimo(x:xs)
+
+sacarBlancosRepetidos :: [Char] -> [Char]
+sacarBlancosRepetidos []        = []
+sacarBlancosRepetidos (x:xs)    | null xs                       = [x]
+                                | x == ' ' && x == (xs !! 0)    = [] ++ sacarBlancosRepetidos xs
+                                | otherwise                     = [x] ++ sacarBlancosRepetidos xs
+
+contarPalabras :: [Char] -> Integer
+contarPalabras []                                       = 0
+contarPalabras (x:[])   | x == ' '                      = 0
+                        | otherwise                     = 1
+contarPalabras (x:xs)   | x /= ' ' && (xs !! 0) == ' '  = 1 + contarPalabras xs
+                        | otherwise                     = 0 + contarPalabras xs
+
+{- palabras :: [Char] -> [[Char]]
+palabras [] = []
+palabras (x:[]) | x == ' '                      = []
+                | otherwise                     = [x]
+ -}
+
+{- recortar :: [Char] -> [Char]
+recortar [] = []
+ -}
