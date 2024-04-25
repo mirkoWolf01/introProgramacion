@@ -10,6 +10,7 @@ module AlgoritmosUtiles
 , iesimoDigito
 , cantDigitos
 , algunDigitoPar
+, nEsPrimo
 ) where
 
 -- Para Numeros en general
@@ -38,6 +39,14 @@ menorDivisorAux a b | b > a                     = 0
 
 esPrimo :: Int -> Bool
 esPrimo a = (menorDivisor a) == a
+
+nEsPrimo :: Int -> Int
+nEsPrimo a  = (nEsPrimoAux a 2)
+
+nEsPrimoAux :: Int -> Int -> Int
+nEsPrimoAux contador numPrimo   | contador == 0 = (numPrimo -1)
+                                | (menorDivisor numPrimo) == numPrimo   = nEsPrimoAux (contador-1)(numPrimo+1)
+                                | otherwise                             = nEsPrimoAux contador (numPrimo+1)
 
 -- Para Digitos 
 ultimoDigito :: Int -> Int 

@@ -167,3 +167,21 @@ concatenarNVeces ls n   | n <= 0    = ""
                         | otherwise = ls ++ concatenarNVeces ls (n-1)
 
 --type Texto = [Char]
+
+--Ej5
+sumaAcumulada :: (Num n) => [n] -> [n]
+sumaAcumulada []        = []
+sumaAcumulada (x:y:ls)  | null ls   = [x] ++ [x+y]
+                        | otherwise = [x] ++ sumaAcumulada ((x+y):ls)
+
+descomponerEnPrimos :: [Int] -> [[Int]] -- Use 2 funciones (separar en multiplos, nEsPrimo) !!! Con numeros muy grandes se traba feo
+descomponerEnPrimos []      = []
+descomponerEnPrimos (x:xs)  | null xs   = [divisores]
+                            | otherwise = [divisores] ++ descomponerEnPrimos xs
+                                where divisores = separarEnMultiplos x 1
+
+separarEnMultiplos :: Int -> Int -> [Int] 
+separarEnMultiplos 1 contador   = []
+separarEnMultiplos x contador   | x `esDivisiblePor` numPrimo   = [numPrimo] ++ separarEnMultiplos (div x numPrimo) 1
+                                | otherwise                     = separarEnMultiplos x (contador+1)
+                                    where numPrimo  = (nEsPrimo contador)
