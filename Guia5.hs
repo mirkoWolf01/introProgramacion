@@ -185,3 +185,116 @@ separarEnMultiplos 1 contador   = []
 separarEnMultiplos x contador   | x `esDivisiblePor` numPrimo   = [numPrimo] ++ separarEnMultiplos (div x numPrimo) 1
                                 | otherwise                     = separarEnMultiplos x (contador+1)
                                     where numPrimo  = (nEsPrimo contador)
+
+-- DLC 5++: Expansion pack + enemigos nuevos
+
+--Ej1
+
+type Punto2D = (Float, Float)
+type Coordenada = (Float, Float)
+
+prodInt :: Punto2D -> Punto2D -> Punto2D
+prodInt (a,b) (c,d) = (a*c, b*d)
+
+todoMenor :: Punto2D -> Punto2D -> Bool
+todoMenor (x,y) (a, b) = ((x,y) >= (a,b))
+
+distanciaPuntos :: Punto2D -> Punto2D -> Punto2D
+distanciaPuntos (a,b) (c,d) = (abs(a-c), abs(b-d))
+
+crearPar :: Float -> Float -> Coordenada
+crearPar x y = (x,y)
+
+--Ej2
+
+type Año        = Int
+type EsBisiesto = Bool
+
+bisiesto :: Año -> EsBisiesto
+bisiesto año  | not (esMultiploDePNeg año 4) || (esMultiploDePNeg año 100) && not (esMultiploDePNeg año 400) = False
+              | otherwise = True
+esMultiploDePNeg :: Int -> Int -> Bool
+esMultiploDePNeg a b  | mod (abs a) (abs b) ==  0     =   True
+                      | otherwise                     =   False
+
+--Ej3
+
+type Coordenada3D =  (Float,Float,Float)
+distanciaManhattan :: Coordenada3D -> Coordenada3D -> Float
+distanciaManhattan (a,b,c) (x,y,z) = abs(l) + abs (m) + abs (n)
+                                    where (l,m,n) = (a-x,b-y,c-z) 
+
+--Ej4
+
+type Texto = String
+type Nombre = Texto
+type Telefono = Texto
+type Contacto = (Nombre, Telefono)
+type ContactosTel = [Contacto]
+
+enLosContactos :: Nombre -> ContactosTel -> Bool
+enLosContactos nombre []                = False
+enLosContactos nombre (contacto:lista)  | nombre == (elNombre contacto) = True
+                                        | otherwise                     = False || enLosContactos nombre lista
+                                    
+
+agregarContactos :: Contacto -> ContactosTel -> ContactosTel
+agregarContactos persona []                 = [persona]
+agregarContactos persona (contacto:lista)   | (elNombre persona) == (elNombre contacto) = [] ++ agregarContactos persona lista
+                                            | otherwise                                 = [contacto] ++ agregarContactos persona lista
+
+eliminarContacto :: Nombre -> ContactosTel -> ContactosTel
+eliminarContacto nombre []                  = []
+eliminarContacto nombre (contacto:lista)    | ((elNombre contacto) == nombre)   = [] ++ eliminarContacto nombre lista   
+                                            | otherwise                         = [contacto] ++ eliminarContacto nombre lista
+
+elNombre :: Contacto -> Nombre
+elNombre contacto   = (fst contacto)
+
+elTelefono :: Contacto -> Telefono
+elTelefono contacto   = (snd contacto)
+
+--Ej5
+
+type Identificacion = Int
+type Ubicacion = Texto
+type Estado = (Disponibilidad, Ubicacion)
+type Locker = (Identificacion, Estado)
+type MapaDeLockers = [Locker]
+data Disponibilidad = Libre | Ocupado deriving (Eq, Show)
+
+existeElLocker :: Identificacion -> MapaDeLockers -> Bool
+existeElLocker id []                = False
+existeElLocker id (locker:lista)    | id == (laIdentificacion locker)   = True
+                                    | otherwise                         = False || existeElLocker id lista
+
+ubicacionDelLocker :: Identificacion -> MapaDeLockers -> Ubicacion
+ubicacionDelLocker id (locker:lista)    | not (existeElLocker id (locker:lista))    = error "Prube un locker existente"
+                                        | laIdentificacion locker == id             = laUbicacion (elEstado locker)
+                                        | otherwise                                 = ubicacionDelLocker id lista
+
+estaDisponibleElLocker :: Identificacion ->MapaDeLockers ->Bool
+estaDisponibleElLocker id (locker:lista)    | not (existeElLocker id (locker:lista))    = error "Prube un locker existente"
+                                            | laIdentificacion locker == id             = estaDisponible (laDisponibilidad (elEstado locker))
+                                            | otherwise                                 = estaDisponibleElLocker id lista
+
+ocuparLocker :: Identificacion -> MapaDeLockers -> MapaDeLockers
+ocuparLocker id []              = []
+ocuparLocker id (locker:lista)  | laIdentificacion locker == id             = [(id,(Ocupado, laUbicacion (elEstado locker)))] ++ ocuparLocker id lista
+                                | otherwise                                 = [locker] ++ ocuparLocker id lista
+
+laIdentificacion :: Locker -> Identificacion
+laIdentificacion locker = fst locker 
+
+elEstado :: Locker -> Estado
+elEstado locker = snd locker
+
+laDisponibilidad :: Estado -> Disponibilidad
+laDisponibilidad estado = fst estado
+
+estaDisponible :: Disponibilidad -> Bool
+estaDisponible Libre    = True
+estaDisponible Ocupado  = False
+
+laUbicacion :: Estado -> Ubicacion
+laUbicacion estado  = snd estado
