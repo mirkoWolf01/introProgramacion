@@ -1,0 +1,10 @@
+import Data.Char
+
+--Ej1
+esMinuscula :: Char -> Bool
+esMinuscula caracter    | caracter >= 'a' && caracter <= 'z'    = True
+                        | otherwise                             = False
+
+--Ej2 
+letraANatural :: Char -> Int
+letraANatural letra = ord letra - ord 'a'
