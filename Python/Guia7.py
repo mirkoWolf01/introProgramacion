@@ -13,11 +13,8 @@ def pertenece(num: int, sequencia: list) -> bool:   # Forma 1
     return está
 
 
-def pertenece2(num: int, sequencia: list) -> bool:
-    if 0 < sequencia.count(num):
-        return True
-    else:
-        return False
+def pertenece2(elemento, sequencia: list) -> bool:  # a in [a,b,c,d]
+    return 0 < sequencia.count(elemento)
 
 
 def pertenece3(num: int, sequencia: list) -> bool:
@@ -79,3 +76,66 @@ def fortaleza_contraseña(contraseña: str) -> str:
         return "AMARILLO"
     else:
         return "VERDE"
+
+
+# Ej 8
+def mov_bancario(historial: list[tuple]) -> int:
+    monto_total: int = 0
+    for (tipo_de_movimiento, cantidad) in historial:
+        if tipo_de_movimiento == 'R':
+            monto_total = monto_total - cantidad
+        if tipo_de_movimiento == 'I':
+            monto_total = monto_total + cantidad
+    return monto_total
+
+
+# Ej 9
+def vocales_distintas(sequencia: str) -> bool:
+    vocales = ['a', 'e', 'i', 'o', 'u']
+    contador: int = 0
+    for vocal in vocales:
+        if vocal in sequencia:
+            contador = contador + 1
+    return contador >= 3
+
+# SEGUNDA PARTE
+
+
+# Ej 1
+def par_a_0_inout(sequencia: list) -> list:   # ¿Es inout?
+    for i in range(len(sequencia)):
+        if (i % 2 == 0):
+            sequencia[i] = 0
+    return sequencia
+
+
+# Ej 2
+def par_a_0_in(sequencia: list) -> list:    # ¿Es in?
+    entrada: list = sequencia.copy()
+    for i in range(len(entrada)):
+        if (i % 2 == 0):
+            entrada[i] = 0
+    return entrada
+
+
+# Ej 3
+def borrar_vocales(seq: list) -> list:
+    caracteres: list = seq.copy()
+    vocales = ['a', 'e', 'i', 'o', 'u']
+    for vocal in vocales:
+        while vocal in caracteres:
+            caracteres.remove(vocal)
+    return caracteres
+
+
+# Ej 4
+def reemplaza_vocales(seq: list) -> list:
+    caracteres: list = seq.copy()
+    vocales = ['a', 'e', 'i', 'o', 'u']
+    for vocal in vocales:
+        while vocal in caracteres:
+            caracteres[caracteres.index(vocal)] = '-'
+    return caracteres
+
+
+print(reemplaza_vocales(list(input())))
