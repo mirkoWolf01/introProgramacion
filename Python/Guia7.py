@@ -1,9 +1,16 @@
 import math
 
+
+def list_to_str(caracteres: list[chr]):
+    convertida: str = ''
+    for c in caracteres:
+        convertida = convertida + c
+    return convertida
+
 # PRIMERA PARTE
 
 
-# Ej 1
+# Ej 1.1
 def pertenece(num: int, sequencia: list) -> bool:   # Forma 1
     está: bool = False
     for n in sequencia:
@@ -27,7 +34,7 @@ def pertenece3(num: int, sequencia: list) -> bool:
 # print(pertenece(2, [123, 3, 2]))
 
 
-# Ej 2
+# Ej 1.2
 def divide_a_todos(num: int, sequencia: list) -> bool:
     for elem in sequencia:
         if elem % num != 0:
@@ -35,7 +42,7 @@ def divide_a_todos(num: int, sequencia: list) -> bool:
     return True
 
 
-# Ej 3
+# Ej 1.3
 def suma_total(sequecia: list) -> int:  # Es basicamente sum ()
     valorActual: int = 0
     while sequecia != []:
@@ -43,7 +50,7 @@ def suma_total(sequecia: list) -> int:  # Es basicamente sum ()
     return valorActual
 
 
-# Ej 4
+# Ej 1.4
 def ordenados(sequencia: list) -> list:
     sequenciaOrdenada: list = []
     while sequencia != []:
@@ -52,7 +59,7 @@ def ordenados(sequencia: list) -> list:
     return sequenciaOrdenada
 
 
-# Ej 5
+# Ej 1.5
 def alguna_palabra_larga(palabras: list[str]) -> bool:
     for palabra in palabras:
         if len(palabra) > 7:
@@ -60,14 +67,14 @@ def alguna_palabra_larga(palabras: list[str]) -> bool:
     return False
 
 
-# Ej 6
+# Ej 1.6
 def es_palidromo(texto: str) -> list:
     reverso: list[str] = list(texto)
     reverso.reverse()
     return list(texto) == reverso
 
 
-# Ej 7
+# Ej 1.7
 def fortaleza_contraseña(contraseña: str) -> str:
     largo: int = len(contraseña)
     if largo < 5:
@@ -78,7 +85,7 @@ def fortaleza_contraseña(contraseña: str) -> str:
         return "VERDE"
 
 
-# Ej 8
+# Ej 1.8
 def mov_bancario(historial: list[tuple]) -> int:
     monto_total: int = 0
     for (tipo_de_movimiento, cantidad) in historial:
@@ -89,7 +96,7 @@ def mov_bancario(historial: list[tuple]) -> int:
     return monto_total
 
 
-# Ej 9
+# Ej 1.9
 def vocales_distintas(sequencia: str) -> bool:
     vocales = ['a', 'e', 'i', 'o', 'u']
     contador: int = 0
@@ -101,15 +108,14 @@ def vocales_distintas(sequencia: str) -> bool:
 # SEGUNDA PARTE
 
 
-# Ej 1
-def par_a_0_inout(sequencia: list) -> list:   # ¿Es inout?
+# Ej 2.1
+def par_a_0_inout(sequencia: list):   # ¿Es inout?
     for i in range(len(sequencia)):
         if (i % 2 == 0):
             sequencia[i] = 0
-    return sequencia
 
 
-# Ej 2
+# Ej 2.2
 def par_a_0_in(sequencia: list) -> list:    # ¿Es in?
     entrada: list = sequencia.copy()
     for i in range(len(entrada)):
@@ -118,7 +124,7 @@ def par_a_0_in(sequencia: list) -> list:    # ¿Es in?
     return entrada
 
 
-# Ej 3
+# Ej 2.3
 def borrar_vocales(seq: list) -> list:
     caracteres: list = seq.copy()
     vocales = ['a', 'e', 'i', 'o', 'u']
@@ -128,7 +134,7 @@ def borrar_vocales(seq: list) -> list:
     return caracteres
 
 
-# Ej 4
+# Ej 2.4
 def reemplaza_vocales(seq: list) -> list:
     caracteres: list = seq.copy()
     vocales = ['a', 'e', 'i', 'o', 'u']
@@ -138,4 +144,23 @@ def reemplaza_vocales(seq: list) -> list:
     return caracteres
 
 
-print(reemplaza_vocales(list(input())))
+# Ej 2.5
+def da_vuelta_str(palabra: str) -> str:
+    dada_vuelta: str = ''
+    palabra_sin_mod: str = list(palabra).copy()
+    for i in range(len(palabra_sin_mod)-1, -1, -1):
+        dada_vuelta = dada_vuelta + palabra_sin_mod[i]
+    return dada_vuelta
+
+
+# Ej 2.6
+def elimiar_repetidos(sequencia: list[chr]) -> str:
+    mod_sequencia: list = sequencia.copy()
+    mod_sequencia.reverse()
+    for i in sequencia:
+        while mod_sequencia.count(i) > 1:
+            mod_sequencia.remove(i)
+    mod_sequencia.reverse()
+    return list_to_str(mod_sequencia)
+
+# Ej 3
