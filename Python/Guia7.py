@@ -145,6 +145,7 @@ def reemplaza_vocales(seq: list) -> list:
 
 
 # Ej 2.5
+# Podria haber usado .reverse y pasalrlo a str pero me parecio muy secillo.
 def da_vuelta_str(palabra: str) -> str:
     dada_vuelta: str = ''
     palabra_sin_mod: str = list(palabra).copy()
@@ -153,8 +154,14 @@ def da_vuelta_str(palabra: str) -> str:
     return dada_vuelta
 
 
+def da_vuelta_str_facil(palabra: str) -> str:
+    palabra_a_revertir: list = list(palabra).copy()
+    palabra_a_revertir.reverse()
+    return list_to_str(palabra_a_revertir)
+
+
 # Ej 2.6
-def elimiar_repetidos(sequencia: list[chr]) -> str:
+def elimiar_repetidos(sequencia: list[chr]) -> str:  # Es in
     mod_sequencia: list = sequencia.copy()
     mod_sequencia.reverse()
     for i in sequencia:
@@ -163,4 +170,53 @@ def elimiar_repetidos(sequencia: list[chr]) -> str:
     mod_sequencia.reverse()
     return list_to_str(mod_sequencia)
 
+
 # Ej 3
+def aprobado(notas: list[int]) -> int:
+    promedio: float = 0
+    todas_aprobadas: bool = True
+    res: int = 0
+    for nota in notas:
+        promedio = promedio + nota
+        if nota < 4:
+            todas_aprobadas = False
+    promedio = promedio / len(notas)
+    if not todas_aprobadas:
+        res = 3
+    elif promedio >= 7:
+        res = 1
+    else:
+        res = 2
+    return res
+
+
+# Ej 4.1
+def generar_lista_alumnos():
+    termino: bool = False
+    lista_alumos: list[str] = []
+    while not termino:
+        estudiante: str = input()
+        if estudiante == "listo":
+            termino = True
+        else:
+            lista_alumos = lista_alumos + [estudiante]
+    print(lista_alumos)
+
+# Ej 4.2
+
+
+def historial_monedero():
+    finalizo: bool = False
+    dinero_total: int = 0
+    while not finalizo:
+        print("Ingrese tipo de movimiento: ")
+        movimiento: str = input()
+        if movimiento == "C":
+            print("Ingrese monto a cargar: ")
+            dinero_total += int(input())
+        if movimiento == "D":
+            print("Ingrese monto a descontar: ")
+            dinero_total -= int(input())
+        if movimiento == "X":
+            finalizo = True
+    print(dinero_total)
