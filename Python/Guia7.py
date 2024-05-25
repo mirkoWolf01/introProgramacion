@@ -1,4 +1,6 @@
 import math
+import random
+import numpy as np
 
 
 def list_to_str(caracteres: list[chr]):
@@ -51,11 +53,16 @@ def suma_total(sequecia: list) -> int:  # Es basicamente sum ()
 
 
 # Ej 1.4
-def ordenados(sequencia: list) -> list:
-    sequenciaOrdenada: list = []
-    while sequencia != []:
-        sequenciaOrdenada = sequenciaOrdenada + [max(sequencia)]
-        sequencia.remove(max(sequencia))
+def ordenados(sequencia: list) -> bool:
+    return ordenar(sequencia) == sequencia
+
+
+def ordenar(sequencia: list[int]) -> list[int]:
+    sequencia_a_ordenar: list[int] = sequencia.copy()
+    sequenciaOrdenada: list[int] = []
+    while sequencia_a_ordenar != []:
+        sequenciaOrdenada = sequenciaOrdenada + [max(sequencia_a_ordenar)]
+        sequencia_a_ordenar.remove(max(sequencia_a_ordenar))
     return sequenciaOrdenada
 
 
@@ -202,9 +209,8 @@ def generar_lista_alumnos():
             lista_alumos = lista_alumos + [estudiante]
     print(lista_alumos)
 
+
 # Ej 4.2
-
-
 def historial_monedero():
     finalizo: bool = False
     dinero_total: int = 0
@@ -220,3 +226,89 @@ def historial_monedero():
         if movimiento == "X":
             finalizo = True
     print(dinero_total)
+
+
+# Ej 4.3                !!! Esta rara idea del problema, no me queda del todo claro como se gana. No se si esta bien hecho realmente. Pero bueno yo lo intenté.!!!
+def siete_y_medio():
+    lista_rans: list = [siete_y_medio_rand_2()]
+    decision: str = ""
+    while decision != "P":
+        suma_rans: float = 0
+        if decision == "S":
+            lista_rans += [siete_y_medio_rand_2()]
+        for n in range(len(lista_rans)):
+            valor: int = lista_rans[n]
+            if valor in [10, 11, 12]:
+                suma_rans += 0.5
+            else:
+                suma_rans += valor
+        if suma_rans > 7.5:
+            print("La suma de sus cartas supera siete y medio. Ha perdido")
+            decision = "P"
+        else:
+            print("¿Desea seguir o plantarse? S/P")
+            decision = input()
+    print(lista_rans)
+
+
+def siete_y_medio_rand() -> int:
+    numero_random: int = 8
+    while numero_random == 8 or numero_random == 9:
+        numero_random = random.randint(1, 12)
+    return numero_random
+
+
+# Otra forma de hacer el random, medio paja usarla si son muchos numeros. Pero si son poquitos como en este ej, esta bastante buena.
+def siete_y_medio_rand_2() -> int:
+    figuras: list[int] = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12]
+    numero_random: int = random.choice(figuras)
+    return numero_random
+
+
+# Ej 5.1
+# la funcion in es lo mismo que pertenece, no me rompas los huevos persona que este leyendo esto por alguna razon. Si sos tom, comeme los huevos hostia chaval.
+def pertenece_a_cada_uno_version_1(seq: list[list[int]], num: int, valores_de_verdad: bool):
+    for lista in seq:
+        valores_de_verdad += [(num in lista)]
+
+
+# Ej 5.2
+# Cambia el primer asegura, osea |res| = |s| y el primero era |res| >= |s|
+# Ya que 0 <= i < |s| para ambos, el indice maximo de res es |s|-1. Osea |res| no va a ser mayor a |s|, siempre van a ser iguales con el segundo asegura.
+# Se puede usar la implementacion del ejercicio 2 para la especificacion del 1 y viceversa.
+# ¿ Relacion de fuerza ? -> Que pingo es.
+
+# Ej 5.3
+def es_matriz(seq: list[list[int]]) -> bool:
+    cant_elem: int = -1
+    misma_cantidad: bool = True
+    mas_de_un_elemento: bool = False
+    if len(seq) > 0:
+        if len(seq[0]) > 0:
+            mas_de_un_elemento = True
+    for i in range(len(seq)):
+        if cant_elem == -1:
+            cant_elem = len(seq[i])
+        elif cant_elem != len(seq[i]):
+            misma_cantidad = False
+    return mas_de_un_elemento and misma_cantidad
+
+
+# Ej 5.4
+def filas_ordenadas(seq: list[list[int]]) -> list[bool]:
+    lista_bools: list[bool] = []
+    for i in range(len(seq)):
+        lista_bools += [ordenados(seq[i])]
+    return lista_bools
+
+
+# Ej 5.5
+def potencia_matriz(d: int, p: int):
+    m = np.random.random((d, d))
+    # m = np.matrix([[1, 2],[0, 3]])
+    print(m**p)
+
+
+d = 4
+p = 3
+potencia_matriz(d, p)
