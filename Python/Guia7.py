@@ -10,10 +10,10 @@ def list_to_str(caracteres: list[chr]):
     return convertida
 
 
-def revertir (lista: list) -> list:
+def revertir(lista: list) -> list:
     rev: list = []
-    for i in range (len (lista) -1 , -1 , -1):
-        rev.append (lista[i])
+    for i in range(len(lista) - 1, -1, -1):
+        rev.append(lista[i])
     return rev
 
 # PRIMERA PARTE
@@ -167,6 +167,7 @@ def da_vuelta_str(palabra: str) -> str:
         dada_vuelta += palabra_sin_mod[i]
     return dada_vuelta
 
+
 def da_vuelta_str_facil(palabra: str) -> str:
     palabra_a_revertir: list = list(palabra).copy()
     palabra_a_revertir.reverse()
@@ -310,23 +311,30 @@ def filas_ordenadas(seq: list[list[int]]) -> list[bool]:
 
 # Ej 5.5
 def potencia_matriz(d: int, p: int):
-    #mat = np.random.random((d, d))
-    mat = np.matrix([[1, 2],[0, 3]])
-    print(mat**p)
+    mat = np.random.random((d, d))
+    # mat = np.matrix([[1, 2, 6], [0, 3, -3], [3, 1, 0]])
+    num = mat.copy()
+    if p > 0:
+        for a in range(p-1):
+            num = mult_matriz(num, mat, d)
+    else:
+        num = np.identity(d, int)
+    return num
 
-def mult_matriz (n: np.matrix, m: np.matrix, d: int):
-    for i in range (d):
-        for k in range (d):
-            num: int = 0
-            for j in range (0, d):
-                elem: int = m[j, i] 
-                num += n[i,j] * 2
-            n[i, k] = num
-    return n
 
-mat = np.matrix([[1, 2],[0, 3]])
-print (mult_matriz (mat,mat,2))
+def mult_matriz(n: np.matrix, m: np.matrix, d: int):
+    mat_prim: np.matrix = n.copy()
+    mat_sec: np.matrix = m.copy()
+    res: np.matrix = n.copy()
+    for i in range(d):
+        for k in range(d):
+            suma_col: int = 0
+            for j in range(d):
+                suma_col += mat_prim[i, j] * mat_sec[j, k]
+            res[i, k] = suma_col
+    return res
 
-d = 4
-p = 1
-#potencia_matriz(d, p)
+
+d = 5
+p = 5
+print(potencia_matriz(d, p))
