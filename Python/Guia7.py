@@ -9,6 +9,13 @@ def list_to_str(caracteres: list[chr]):
         convertida = convertida + c
     return convertida
 
+
+def revertir (lista: list) -> list:
+    rev: list = []
+    for i in range (len (lista) -1 , -1 , -1):
+        rev.append (lista[i])
+    return rev
+
 # PRIMERA PARTE
 
 
@@ -108,7 +115,7 @@ def vocales_distintas(sequencia: str) -> bool:
     vocales = ['a', 'e', 'i', 'o', 'u']
     contador: int = 0
     for vocal in vocales:
-        if vocal in sequencia:
+        if vocal in sequencia or vocal.upper() in sequencia:
             contador = contador + 1
     return contador >= 3
 
@@ -157,9 +164,8 @@ def da_vuelta_str(palabra: str) -> str:
     dada_vuelta: str = ''
     palabra_sin_mod: str = list(palabra).copy()
     for i in range(len(palabra_sin_mod)-1, -1, -1):
-        dada_vuelta = dada_vuelta + palabra_sin_mod[i]
+        dada_vuelta += palabra_sin_mod[i]
     return dada_vuelta
-
 
 def da_vuelta_str_facil(palabra: str) -> str:
     palabra_a_revertir: list = list(palabra).copy()
@@ -304,11 +310,23 @@ def filas_ordenadas(seq: list[list[int]]) -> list[bool]:
 
 # Ej 5.5
 def potencia_matriz(d: int, p: int):
-    m = np.random.random((d, d))
-    # m = np.matrix([[1, 2],[0, 3]])
-    print(m**p)
+    #mat = np.random.random((d, d))
+    mat = np.matrix([[1, 2],[0, 3]])
+    print(mat**p)
 
+def mult_matriz (n: np.matrix, m: np.matrix, d: int):
+    for i in range (d):
+        for k in range (d):
+            num: int = 0
+            for j in range (0, d):
+                elem: int = m[j, i] 
+                num += n[i,j] * 2
+            n[i, k] = num
+    return n
+
+mat = np.matrix([[1, 2],[0, 3]])
+print (mult_matriz (mat,mat,2))
 
 d = 4
-p = 3
-potencia_matriz(d, p)
+p = 1
+#potencia_matriz(d, p)
