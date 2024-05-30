@@ -335,6 +335,6 @@ def mult_matriz(n: np.matrix, m: np.matrix, d: int):
     return res
 
 
-d = 5
+d = 2
 p = 5
 print(potencia_matriz(d, p))
