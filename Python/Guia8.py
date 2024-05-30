@@ -57,7 +57,53 @@ def revertir_archivo(nombre_archivo: str):
     if len(reverse) > 0:
         reverse[0] += "\n"
         reverse[len(reverse)-1] = str_f.cortar_hasta(
-            "\n",
-            reverse[len(reverse)-1])
+            hasta="\n",
+            text=reverse[len(reverse)-1]
+        )
     with open(f"{nombre_archivo}_reverse.txt", "w") as file:
         file.writelines(reverse)
+
+
+# Ej 4
+def agregar_frase_al_final(nombre_archivo: str, frase: str):
+    with open(f"{nombre_archivo}.txt", 'a') as file:
+        file.write(f"\n{frase}")
+
+
+# Ej 5
+def agregar_frase_al_principio(nombre_archivo: str, frase: str):
+    lst_text: list[str] = []
+    with open(f"{nombre_archivo}.txt", 'r') as file:
+        lst_text = file.readlines()
+    with open(f"{nombre_archivo}.txt", 'w') as file:
+        file.writelines([f"{frase}\n"]+lst_text)
+
+
+# Ej 6
+# Me quedo medio raro, no se si esta bie hecho.
+def listar_palabras_de_archivo(nombre_archivo: str) -> list:
+    lst_palabras: list[str] = []
+
+    def es_caracter_palabra(byte: int):
+        es_caracter_valido: bool = False
+        if byte in range(65, 91) or byte in range(97, 123) or byte in range(48, 58) or byte == 95 or byte == 32:
+            es_caracter_valido = True
+        return es_caracter_valido
+
+    def filtrar(lista: list[str]) -> list[str]:
+        filtrado: list[str] = []
+        for i in range(len(lista)):
+            if len(lista[i]) >= 5:
+                filtrado += [lista[i]]
+        return filtrado
+
+    with open(f"{nombre_archivo}.zip", 'rb') as file:
+        bin_text = file.read()
+        palabra: str = ""
+        for i in range(len(bin_text)):
+            if es_caracter_palabra(bin_text[i]):
+                palabra += str(chr(bin_text[i]))
+            else:
+                lst_palabras += [palabra]
+                palabra = ""
+    return filtrar(lst_palabras)
