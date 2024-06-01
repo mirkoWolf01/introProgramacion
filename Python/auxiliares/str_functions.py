@@ -23,7 +23,6 @@ def find_all(elem: str, text: str) -> list[int]:
                     palabra += text[i+c]
             if elem == palabra:
                 val += [i]
-                break
     return val
 
 
@@ -42,9 +41,17 @@ def terminaEn(elem: str, text: str) -> bool:
     return elem == sec_final
 
 
+# Requiere que exista hasta en texto
 def cortar_hasta(hasta: str, text: str) -> str:
     destino: int = find(hasta, text)
     res: str = ""
     for i in range(destino):
+        res += text[i]
+    return res
+
+
+def cortar_hasta_index(ini: int, dest: int, text: str) -> str:
+    res: str = ""
+    for i in range(ini, dest):
         res += text[i]
     return res

@@ -7,9 +7,7 @@ def contar_lineas(nombre_archivo: str) -> int:
     cont: int = 0
     with open(f"{nombre_archivo}.txt", 'r') as file:
         lst_text: list = file.readlines()
-        for i in range(len(lst_text)):
-            if str_f.terminaEn("\n", lst_text[i]):
-                cont += 1
+        cont = len(lst_text)
     return cont
 
 
@@ -80,7 +78,7 @@ def agregar_frase_al_principio(nombre_archivo: str, frase: str):
 
 
 # Ej 6
-# Me quedo medio raro, no se si esta bie hecho.
+# Me quedo medio raro, no se si esta bien hecho.
 def listar_palabras_de_archivo(nombre_archivo: str) -> list:
     lst_palabras: list[str] = []
 
@@ -107,3 +105,55 @@ def listar_palabras_de_archivo(nombre_archivo: str) -> list:
                 lst_palabras += [palabra]
                 palabra = ""
     return filtrar(lst_palabras)
+
+
+# Ej 7
+class Estudiante:
+    def __init__(self, carac: str):
+        self.text = carac
+
+    def getLU(self) -> str:
+        pos_comas: list[int] = str_f.find_all(",", self.text)
+        return str_f.cortar_hasta_index(0, pos_comas[0], self.text)
+
+    def getSub(self) -> str:
+        pos_comas: list[int] = str_f.find_all(",", self.text)
+        return str_f.cortar_hasta_index(pos_comas[0] + 1, pos_comas[1], self.text)
+
+    def getDate(self) -> str:
+        pos_comas: list[int] = str_f.find_all(",", self.text)
+        return str_f.cortar_hasta_index(pos_comas[1] + 1, pos_comas[2], self.text)
+
+    def getNote(self) -> float:
+        pos_comas: list[int] = str_f.find_all(",", self.text)
+        return float(str_f.cortar_hasta_index(pos_comas[2] + 1, len(self.text), self.text))
+
+
+def calcular_promedio_por_estudiante(nombre_archivo: str, nombre_archivos_promedio: str):
+    libretas: str = []
+    promedio: float = 0
+    cant_notas_alumno: int = 0
+    lst_estudiantes: list[Estudiante] = []
+    with open(f"{nombre_archivo}.csv", 'r') as file:
+        lst_lines: list[str] = file.readlines()
+        for i in range(len(lst_lines)):
+            lst_estudiantes += [Estudiante(lst_lines[i])]
+            libreta = lst_estudiantes[i].getLU()
+            if not libreta in libretas:
+                libretas += [lst_estudiantes[i].getLU()]
+
+    for n in range(len(libretas)):
+        for i in range(len(lst_estudiantes)):
+            if lst_estudiantes[i].getLU() == libretas[n]:
+                nota = lst_estudiantes[i].getNote()
+                cant_notas_alumno += 1
+                promedio += nota
+        with open(f"{nombre_archivos_promedio}.csv", "a") as file:
+            file.write(f"LU: {libretas[n]} ___Promedio: {
+                       promedio/cant_notas_alumno}")
+            file.write("\n")
+        promedio = 0
+        cant_notas_alumno = 0
+
+
+# Ej 8
