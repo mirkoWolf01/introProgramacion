@@ -2,6 +2,7 @@ import auxiliares.str_functions as str_f
 import auxiliares.list_functions as lst_f
 import auxiliares.pila_functions as pif
 from queue import LifoQueue as Pila
+from queue import Queue as Cola
 import random as rand
 
 # Ej 1.1
@@ -246,3 +247,100 @@ def evaluar_expresion(s: str) -> float:
                 res = primer_num / seg_num
             operadores.put(res)
     return operadores.get()
+
+
+# Ej 13
+def formar_cola_azar():
+    p: Pila[int] = generar_nros_al_azar(cantidad= 5, desde= 2, hasta= 10)
+    c = Cola()
+    for i in range(cantidad_elementos (p)):
+        c.put (p.get())
+    return c
+    
+
+# Ej 14
+def cant_elem_in_cola(c:Cola) -> int:
+    lst_elem: list = []
+    res: int = 0
+    while not c.empty():
+        lst_elem += [c.get()]
+    res = len (lst_elem)
+    for i in range (res):
+        c.put(lst_elem[i])
+    return res
+
+
+# Ej 15
+def bmax_col(c:Cola[int]) -> int:
+    max_num: int = c.get()
+    c.put(max_num)
+    for i in range(cant_elem_in_cola(c) -1 ):
+        act_num: int = c.get()
+        if act_num > max_num:
+            max_num = act_num
+        c.put(act_num)
+    return max_num
+
+# Ej 16
+def armar_sec_bingo() -> Cola[int]:
+    res = Cola()
+    unused: list[int] = list(range(100))
+    for i in range(100):
+        elem: int = rand.randint(0,len(unused)-1)
+        num: int = unused[elem]
+        res.put(num)
+        unused.remove(num)
+    return res
+
+def jugar_bingo(carton: list[int], bolillero: Cola[int]) -> int:
+    faltan_para_bingo: int = carton.copy()
+    jugadas: int = -1
+    for i in range(cant_elem_in_cola(bolillero)):
+        actual_num: int = bolillero.get()
+        if actual_num in faltan_para_bingo:
+            faltan_para_bingo.remove(actual_num)
+        if faltan_para_bingo == [] and jugadas == -1:
+            jugadas = i
+        bolillero.put(actual_num)
+    return jugadas
+
+
+# Ej 17
+def n_pacietes_urgentes(c: Cola[tuple[int,str,str]]) -> int:
+    alta_prioridad: list[int] = [1,2,3]
+    res: int = 0
+    for i in range(cant_elem_in_cola(c)):
+        datos_paciente : tuple[int,str,str] = c.get()
+        c.put(datos_paciente)
+        if datos_paciente[0] in alta_prioridad:
+            res += 1
+    return res
+
+
+# Ej 18
+def atencion_a_clietes(c:Cola[tuple[str,int,bool,bool]]) -> Cola[tuple[str,int,bool,bool]]:
+    cola_extrema_prioridad = Cola()
+    cola_prioridad = Cola()
+    cola_preferencial = Cola()
+    cola_normal = Cola()
+    orden: list[Cola] = [cola_extrema_prioridad, cola_prioridad, cola_preferencial, cola_normal]
+
+    for i in range(cant_elem_in_cola(c)):
+        cliente: tuple[str,int,bool,bool] = c.get()
+        c.put(cliente)
+        if cliente[3] and cliente[2]:
+            cola_extrema_prioridad.put(cliente)
+        elif cliente[3]:
+            cola_prioridad.put(cliente)
+        elif cliente[2]:
+            cola_preferencial.put(cliente)
+        else:
+            cola_normal.put(cliente)
+    
+    res: Cola[tuple[str,int,bool,bool]] = Cola()
+    for i in range(len(orden)):
+        cola_actual = orden[i]
+        for n in range(cant_elem_in_cola(cola_actual)):
+            res.put(cola_actual.get())
+    return res
+    
