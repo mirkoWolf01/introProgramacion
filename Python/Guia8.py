@@ -1,8 +1,12 @@
 import auxiliares.str_functions as str_f
 import auxiliares.list_functions as lst_f
-
+import auxiliares.pila_functions as pif
+from queue import LifoQueue as Pila
+import random as rand
 
 # Ej 1.1
+
+
 def contar_lineas(nombre_archivo: str) -> int:
     cont: int = 0
     with open(f"{nombre_archivo}.txt", 'r') as file:
@@ -149,11 +153,71 @@ def calcular_promedio_por_estudiante(nombre_archivo: str, nombre_archivos_promed
                 cant_notas_alumno += 1
                 promedio += nota
         with open(f"{nombre_archivos_promedio}.csv", "a") as file:
-            file.write(f"LU: {libretas[n]} ___Promedio: {
-                       promedio/cant_notas_alumno}")
+            file.write(f"{libretas[n]}, {promedio/cant_notas_alumno}")
             file.write("\n")
         promedio = 0
         cant_notas_alumno = 0
 
 
 # Ej 8
+def generar_nros_al_azar(cantidad: int, desde: int, hasta: int) -> Pila[int]:
+    queue = Pila()
+    print(queue.empty())
+    for i in range(cantidad):
+        num = rand.randint(desde, hasta)
+        queue.put(num)
+    return queue
+
+
+# Ej 9
+def cantidad_elementos(p: Pila) -> int:
+    lst_elementos: list = []
+    cant_elementos: int = 0
+    while not p.empty():
+        lst_elementos += [p.get()]
+    cant_elementos = len(lst_elementos)
+    for i in range(cant_elementos - 1, -1, -1):
+        p.put(lst_elementos[i])
+    return cant_elementos
+
+
+# Ej 10
+def buscar_max(pint: Pila[int]) -> int:
+    lst_enteros: list[int] = [pint.get()]
+    max_num: int = lst_enteros[0]
+    for i in range(cantidad_elementos(pint)):
+        num_actual: int = pint.get()
+        lst_enteros.append(num_actual)
+        if num_actual > max_num:
+            max_num = num_actual
+    for i in range(len(lst_enteros) - 1, -1, -1):
+        pint.put(lst_enteros[i])
+    return max_num
+
+
+# Ej 11
+def esta_bien_balanceada(s: str) -> bool:
+    p = Pila()
+    p_abierto: int = 0
+    p_cerrado: int = 0
+    c_anterior: str = ""
+    bien_hecho: bool = True
+    for i in range(len(s)):
+        p.put(s[i])
+    print(pif.getAll(p))
+    while not p.empty() and bien_hecho:
+        c_actual: str = p.get()
+        if c_anterior in [")", "+", "*", "/"] and c_actual in ["(", "+", "-", "*", "/"]:
+            bien_hecho = False
+        if c_actual == ")":
+            p_cerrado += 1
+        if c_actual == "(":
+            p_abierto += 1
+        if c_actual != " ":
+            c_anterior = c_actual
+    if bien_hecho:
+        bien_hecho = (p_abierto == p_cerrado)
+    return bien_hecho
+
+
+print(esta_bien_balanceada("(1+2) * 2("))
