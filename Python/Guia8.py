@@ -220,4 +220,29 @@ def esta_bien_balanceada(s: str) -> bool:
     return bien_hecho
 
 
-print(esta_bien_balanceada("(1+2) * 2("))
+# Ej 12
+# No funciona para numeros de mas de dos digitos, me da paja hacer para que filtre numeros de mas de dos digitos :)
+def evaluar_expresion(s: str) -> float:
+    operadores = Pila()
+    operandos = Pila()
+    res: float = 0
+    for i in range(len(s)-1, -1, -1):
+        if s[i] in ["+", "-", "*", "/"]:
+            operandos.put(s[i])
+        elif s[i] != " ":
+            operadores.put(s[i])
+    while cantidad_elementos(operadores) > 1:
+        for i in range(cantidad_elementos(operandos)):
+            primer_num: float = float(operadores.get())
+            seg_num: float = float(operadores.get())
+            operando = operandos.get()
+            if operando == "+":
+                res = primer_num + seg_num
+            elif operando == "-":
+                res = primer_num - seg_num
+            elif operando == "*":
+                res = primer_num * seg_num
+            elif operando == "/":
+                res = primer_num / seg_num
+            operadores.put(res)
+    return operadores.get()
