@@ -116,22 +116,14 @@ def listar_palabras_de_archivo(nombre_archivo: str) -> list:
 class Estudiante:
     def __init__(self, carac: str):
         self.text = carac
-
-    def getLU(self) -> str:
-        pos_comas: list[int] = str_f.find_all(",", self.text)
-        return str_f.cortar_hasta_index(0, pos_comas[0], self.text)
-
-    def getSub(self) -> str:
-        pos_comas: list[int] = str_f.find_all(",", self.text)
-        return str_f.cortar_hasta_index(pos_comas[0] + 1, pos_comas[1], self.text)
-
-    def getDate(self) -> str:
-        pos_comas: list[int] = str_f.find_all(",", self.text)
-        return str_f.cortar_hasta_index(pos_comas[1] + 1, pos_comas[2], self.text)
-
-    def getNote(self) -> float:
-        pos_comas: list[int] = str_f.find_all(",", self.text)
-        return float(str_f.cortar_hasta_index(pos_comas[2] + 1, len(self.text), self.text))
+        self.lu = str_f.cortar_hasta_index(
+            0, str_f.find_all(",", self.text)[0], self.text)
+        self.sub = str_f.cortar_hasta_index(str_f.find_all(
+            ",", self.text)[0] + 1, str_f.find_all(",", self.text)[1], self.text)
+        self.date = str_f.cortar_hasta_index(str_f.find_all(
+            ",", self.text)[1] + 1, str_f.find_all(",", self.text)[2], self.text)
+        self.note = float(str_f.cortar_hasta_index(str_f.find_all(
+            ",", self.text)[2] + 1, len(self.text), self.text))
 
 
 def calcular_promedio_por_estudiante(nombre_archivo: str, nombre_archivos_promedio: str):
@@ -143,14 +135,14 @@ def calcular_promedio_por_estudiante(nombre_archivo: str, nombre_archivos_promed
         lst_lines: list[str] = file.readlines()
         for i in range(len(lst_lines)):
             lst_estudiantes += [Estudiante(lst_lines[i])]
-            libreta = lst_estudiantes[i].getLU()
+            libreta = lst_estudiantes[i].lu
             if not libreta in libretas:
-                libretas += [lst_estudiantes[i].getLU()]
+                libretas += [lst_estudiantes[i].lu]
 
     for n in range(len(libretas)):
         for i in range(len(lst_estudiantes)):
-            if lst_estudiantes[i].getLU() == libretas[n]:
-                nota = lst_estudiantes[i].getNote()
+            if lst_estudiantes[i].lu == libretas[n]:
+                nota = lst_estudiantes[i].nota
                 cant_notas_alumno += 1
                 promedio += nota
         with open(f"{nombre_archivos_promedio}.csv", "a") as file:
@@ -481,16 +473,3 @@ def calcular_valor_inventario(inventario: dict[str, dict[str, int]]) -> float:
         d: dict[str, int] = inventario[keys[i]]
         valor_total += d["cantidad"] * d["precio"]
     return valor_total
-
-
-inventario = {}
-agregar_producto(inventario, "Camisa", 20.0, 50)
-agregar_producto(inventario, "Pantalon", 30.0, 30)
-actualizar_stock(inventario, "Camisa", 10)
-valor_total = calcular_valor_inventario(inventario)
-print("Valor total del inventario:", valor_total)
-
-# Hicieron mal la guia JASJSAJSA da 1100
-
-
-
