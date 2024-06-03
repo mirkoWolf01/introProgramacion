@@ -75,10 +75,11 @@ def ordenar(sequencia: list[int]) -> list[int]:
 
 # Ej 1.5
 def alguna_palabra_larga(palabras: list[str]) -> bool:
-    for palabra in palabras:
+    res: bool = False
+    for palabra in range(len(palabras)):
         if len(palabra) > 7:
-            return True
-    return False
+            res = True
+    return res
 
 
 # Ej 1.6

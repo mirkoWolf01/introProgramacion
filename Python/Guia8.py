@@ -205,7 +205,6 @@ def esta_bien_balanceada(s: str) -> bool:
     bien_hecho: bool = True
     for i in range(len(s)):
         p.put(s[i])
-    print(pif.getAll(p))
     while not p.empty() and bien_hecho:
         c_actual: str = p.get()
         if c_anterior in [")", "+", "*", "/"] and c_actual in ["(", "+", "-", "*", "/"]:
@@ -251,30 +250,30 @@ def evaluar_expresion(s: str) -> float:
 
 # Ej 13
 def formar_cola_azar():
-    p: Pila[int] = generar_nros_al_azar(cantidad= 5, desde= 2, hasta= 10)
+    p: Pila[int] = generar_nros_al_azar(cantidad=5, desde=2, hasta=10)
     c = Cola()
-    for i in range(cantidad_elementos (p)):
-        c.put (p.get())
+    for i in range(cantidad_elementos(p)):
+        c.put(p.get())
     return c
-    
+
 
 # Ej 14
-def cant_elem_in_cola(c:Cola) -> int:
+def cant_elem_in_cola(c: Cola) -> int:
     lst_elem: list = []
     res: int = 0
     while not c.empty():
         lst_elem += [c.get()]
-    res = len (lst_elem)
-    for i in range (res):
+    res = len(lst_elem)
+    for i in range(res):
         c.put(lst_elem[i])
     return res
 
 
 # Ej 15
-def bmax_col(c:Cola[int]) -> int:
+def bmax_col(c: Cola[int]) -> int:
     max_num: int = c.get()
     c.put(max_num)
-    for i in range(cant_elem_in_cola(c) -1 ):
+    for i in range(cant_elem_in_cola(c) - 1):
         act_num: int = c.get()
         if act_num > max_num:
             max_num = act_num
@@ -282,15 +281,18 @@ def bmax_col(c:Cola[int]) -> int:
     return max_num
 
 # Ej 16
+
+
 def armar_sec_bingo() -> Cola[int]:
     res = Cola()
     unused: list[int] = list(range(100))
     for i in range(100):
-        elem: int = rand.randint(0,len(unused)-1)
+        elem: int = rand.randint(0, len(unused)-1)
         num: int = unused[elem]
         res.put(num)
         unused.remove(num)
     return res
+
 
 def jugar_bingo(carton: list[int], bolillero: Cola[int]) -> int:
     faltan_para_bingo: int = carton.copy()
@@ -306,11 +308,11 @@ def jugar_bingo(carton: list[int], bolillero: Cola[int]) -> int:
 
 
 # Ej 17
-def n_pacietes_urgentes(c: Cola[tuple[int,str,str]]) -> int:
-    alta_prioridad: list[int] = [1,2,3]
+def n_pacietes_urgentes(c: Cola[tuple[int, str, str]]) -> int:
+    alta_prioridad: list[int] = [1, 2, 3]
     res: int = 0
     for i in range(cant_elem_in_cola(c)):
-        datos_paciente : tuple[int,str,str] = c.get()
+        datos_paciente: tuple[int, str, str] = c.get()
         c.put(datos_paciente)
         if datos_paciente[0] in alta_prioridad:
             res += 1
@@ -318,15 +320,16 @@ def n_pacietes_urgentes(c: Cola[tuple[int,str,str]]) -> int:
 
 
 # Ej 18
-def atencion_a_clietes(c:Cola[tuple[str,int,bool,bool]]) -> Cola[tuple[str,int,bool,bool]]:
+def atencion_a_clietes(c: Cola[tuple[str, int, bool, bool]]) -> Cola[tuple[str, int, bool, bool]]:
     cola_extrema_prioridad = Cola()
     cola_prioridad = Cola()
     cola_preferencial = Cola()
     cola_normal = Cola()
-    orden: list[Cola] = [cola_extrema_prioridad, cola_prioridad, cola_preferencial, cola_normal]
+    orden: list[Cola] = [cola_extrema_prioridad,
+                         cola_prioridad, cola_preferencial, cola_normal]
 
     for i in range(cant_elem_in_cola(c)):
-        cliente: tuple[str,int,bool,bool] = c.get()
+        cliente: tuple[str, int, bool, bool] = c.get()
         c.put(cliente)
         if cliente[3] and cliente[2]:
             cola_extrema_prioridad.put(cliente)
@@ -336,11 +339,158 @@ def atencion_a_clietes(c:Cola[tuple[str,int,bool,bool]]) -> Cola[tuple[str,int,b
             cola_preferencial.put(cliente)
         else:
             cola_normal.put(cliente)
-    
-    res: Cola[tuple[str,int,bool,bool]] = Cola()
+
+    res: Cola[tuple[str, int, bool, bool]] = Cola()
     for i in range(len(orden)):
         cola_actual = orden[i]
         for n in range(cant_elem_in_cola(cola_actual)):
             res.put(cola_actual.get())
     return res
-    
+
+
+# Ej 19
+def agrupar_por_longitud(nombre_archivo: str) -> dict:
+    res: dict = {}
+
+    def add_to_res(palabra: str):
+        largo_palabra: int = len(palabra)
+        if largo_palabra > 0:
+            if largo_palabra in res.keys():
+                res[largo_palabra] += 1
+            else:
+                res.update({largo_palabra: 1})
+
+    with open(f"{nombre_archivo}.txt", "r") as file:
+        palabras: str = file.read()
+        palabra: str = ""
+        for i in range(len(palabras)):
+            if palabras[i] != " " and palabras[i] != "\n":
+                palabra += palabras[i]
+            else:
+                add_to_res(palabra)
+                palabra = ""
+        add_to_res(palabra)
+    return res
+
+
+# Ej 20
+def calcular_promedio_por_estudiante_dict(nombre_archivo: str) -> dict[str, float]:
+    libretas: str = []
+    lst_estudiantes: list[Estudiante] = []
+    res: dict[str, float] = {}
+    with open(f"{nombre_archivo}.csv", 'r') as file:
+        lst_lines: list[str] = file.readlines()
+        for i in range(len(lst_lines)):
+            lst_estudiantes += [Estudiante(lst_lines[i])]
+            libreta = lst_estudiantes[i].getLU()
+            if not libreta in libretas:
+                libretas += [lst_estudiantes[i].getLU()]
+
+    promedio: float = 0
+    cant_notas_alumno: int = 0
+    for n in range(len(libretas)):
+        for i in range(len(lst_estudiantes)):
+            lib: str = lst_estudiantes[i].getLU()
+            if lib == libretas[n]:
+                nota = lst_estudiantes[i].getNote()
+                cant_notas_alumno += 1
+                promedio += nota
+                promedio = promedio / cant_notas_alumno
+                res.update({lib: promedio})
+        promedio = 0
+        cant_notas_alumno = 0
+    return res
+
+
+# Ej 21
+def la_palabra_mas_frecuente(nombre_archivo: str) -> str:
+    res: dict[int] = {}
+
+    # Añade palabra a res si no existe en res, sino le suma 1 al valor de res[palabra]
+    def add_to_dict(palabra: str):
+        if len(palabra) > 0:
+            if palabra in res.keys():
+                res[palabra] += 1
+            else:
+                res.update({palabra: 1})
+
+    # Lee el archivo y separa palabras de no palabras y las guarda en res.
+    with open(f"{nombre_archivo}.txt", "r") as file:
+        text: str = file.read()
+        palabra: str = ""
+        for i in range(len(text)):
+            if ord(text[i]) in range(97, 123) or ord(text[i]) in range(65, 91):
+                palabra += text[i]
+            else:
+                add_to_dict(palabra)
+                palabra = ""
+        add_to_dict(palabra)
+
+    # De todas las palabras identifico cual es la mas usada
+    list_keys: list[str] = list(res.keys())
+    mas_usada: str = " "
+    for i in range(len(res.keys())):
+        if mas_usada == " ":
+            mas_usada = list_keys[i]
+        elif res[list_keys[i]] > res[mas_usada]:
+            mas_usada = list_keys[i]
+    return mas_usada
+
+
+# Ej 22
+def visitar_sitio(historiales: dict[str, Pila[str]], usuario: str, sitio: str):
+    if usuario in historiales.keys():
+        historiales[usuario].put(sitio)
+    else:
+        p = Pila()
+        p.put(sitio)
+        historiales.update({usuario: p})
+
+
+def navegar_atras(historiales: dict[str, Pila[str]], usuario: str):
+    elem_actual: str = historiales[usuario].get()
+    elem_anterior: str = historiales[usuario].get()
+    p = Pila()
+    historiales[usuario].put(elem_anterior)
+    historiales[usuario].put(elem_actual)
+    historiales[usuario].put(elem_anterior)
+
+
+# Ej 23
+def agregar_producto(inventario: dict[str, dict[str, int]], nombre: str, precio: int, cantidad: int):
+    cualidades: dict[str, int] = {}
+    cualidades.update({"precio": precio})
+    cualidades.update({"cantidad": cantidad})
+    inventario.update({nombre: cualidades})
+
+
+def actualizar_stock(inventario: dict[str, dict[str, int]], nombre: str, cantidad: int):
+    cualidades: dict[str, int] = inventario[nombre]
+    cualidades["cantidad"] = cantidad
+
+
+def actualizar_precio(inventario: dict[str, dict[str, int]], nombre: str, precio: int):
+    cualidades: dict[str, int] = inventario[nombre]
+    cualidades["precio"] = precio
+
+
+def calcular_valor_inventario(inventario: dict[str, dict[str, int]]) -> float:
+    keys: list[str] = list(inventario.keys())
+    valor_total: float = 0
+    for i in range(len(keys)):
+        d: dict[str, int] = inventario[keys[i]]
+        valor_total += d["cantidad"] * d["precio"]
+    return valor_total
+
+
+inventario = {}
+agregar_producto(inventario, "Camisa", 20.0, 50)
+agregar_producto(inventario, "Pantalon", 30.0, 30)
+actualizar_stock(inventario, "Camisa", 10)
+valor_total = calcular_valor_inventario(inventario)
+print("Valor total del inventario:", valor_total)
+
+# Hicieron mal la guia JASJSAJSA da 1100
+
+
+
