@@ -473,3 +473,24 @@ def calcular_valor_inventario(inventario: dict[str, dict[str, int]]) -> float:
         d: dict[str, int] = inventario[keys[i]]
         valor_total += d["cantidad"] * d["precio"]
     return valor_total
+
+
+# Ejemplos de Examen
+def ind_nesima_aparicion(s: list[int], n: int, elem: int) -> int:
+    apariciones: int = 0
+    res: int = 0
+    for i in range(len(s)):
+        if s[i] == elem:
+            apariciones += 1
+            if n == apariciones:
+                res = i
+    if apariciones < n:
+        res = -1
+    return res
+
+
+def mezclar(s1: list[int], s2: list[int]) -> list[int]:
+    res: list[int] = []
+    for i in range(len(s1)):
+        res += [s1[i]] + [s2[i]]
+    return res
