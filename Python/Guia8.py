@@ -494,3 +494,48 @@ def mezclar(s1: list[int], s2: list[int]) -> list[int]:
     for i in range(len(s1)):
         res += [s1[i]] + [s2[i]]
     return res
+
+
+def minimo(conjunto: list[int]) -> int:
+    res: float = conjunto[0]
+    for i in range(1, (len(conjunto))):
+        if conjunto[i] < res:
+            res = conjunto[i]
+    return res
+
+
+def maximo(conjunto: list[int]) -> int:
+    res: float = conjunto[0]
+    for i in range(1, (len(conjunto))):
+        if conjunto[i] > res:
+            res = conjunto[i]
+    return res
+
+
+def stock_productos(stock_cambios: list[tuple[(str, int)]]) -> dict[str, tuple[(int, int)]]:
+    historial_cambios: dict[str, list[int]] = {}
+    res: dict[str, tuple[(int, int)]] = {}
+
+    # Agrupa los distintos stocks mediante su nombre (str)
+    # Y lo guarda en una lista de ints
+    for i in range(len(stock_cambios)):
+        producto_nombre: str = stock_cambios[i][0]
+        stock_producto: int = stock_cambios[i][1]
+        if producto_nombre in historial_cambios.keys():
+            historial_cambios[producto_nombre] += [stock_producto]
+        else:
+            historial_cambios[producto_nombre] = [stock_producto]
+
+    # Por cada clave del diccionario anterior busca el maximo y minimo y lo guarda como tupla en otro diccionario
+    lista_claves: list[str] = list(historial_cambios.keys())
+    for i in range(len(lista_claves)):
+        producto_nombre: str = lista_claves[i]
+        historial: list[int] = historial_cambios[producto_nombre]
+        res[producto_nombre] = (minimo(historial), maximo(historial))
+    return res
+
+
+a: list[tuple[(str, int)]] = [("marcelo", 2), ("marcelo", 3),
+                              ("marcelo", 10), ("conocelo", 1),
+                              ("lucas", 20), ("lucas", -100)]
+print(stock_productos(a))
